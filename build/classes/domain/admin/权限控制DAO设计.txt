@@ -1,0 +1,45 @@
+create table privilege 
+(
+	id varchar(40) primary key,
+	name varchar(100) not null unique,
+	description varchar(255)
+);
+
+create table resource
+(
+	id varchar(40) primary key,
+	uri varchar(100) not null unique,
+	description varchar(255),
+	privilege_id varchar(40),
+	constraint privilege_id_FK foreign key(privilege_id) references privilege(id)
+); 
+
+create table role
+(
+	id varchar(40) primary key,
+	name varchar(100) not null unique,
+	description varchar(255)
+);
+
+create table role_privilege
+(
+	role_id varchar(40),
+	privilege_id varchar(40),
+	primary key(role_id,privilege_id),
+	constraint role_id_FK foreign key(role_id) references role(id),
+	constraint privilege_id_FK1 foreign key(privilege_id) references privilege(id)
+);
+
+create table users_role
+(
+	role_id varchar(40),
+	users_id varchar(40),
+	primary key(role_id,users_id),
+	constraint role_id_FK1 foreign key(role_id) references role(id),
+	constraint users_id_FK foreign key(users_id) references users(id)
+);        
+Alter table users add isDelete varchar(5) not NULL;
+Alter table role add isDelete varchar(5) not NULL;
+Alter table privilege add isDelete varchar(5) not NULL;
+Alter table resource add isDelete varchar(5) not NULL;
+                                                                                                                                                                                                                                      
